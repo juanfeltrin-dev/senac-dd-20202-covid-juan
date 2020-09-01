@@ -1,16 +1,18 @@
 package model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
-public class Person {
+public class PersonVO {
+	private int id;
 	private String name;
 	private Date birth;
 	private String genre;
 	private String document;
-	private Vaccine vaccine;
+	private VaccineVO vaccine;
 	
-	public Person(String name, Date birth, String genre, String document, Vaccine vaccine) {
+	public PersonVO(int id, String name, Date birth, String genre, String document, VaccineVO vaccine) {
 		super();
+		this.id 		= id;
 		this.name 		= name;
 		this.birth 		= birth;
 		this.genre 		= genre;
@@ -18,8 +20,16 @@ public class Person {
 		this.vaccine 	= vaccine;
 	}
 	
-	public Person() {
+	public PersonVO() {
 		super();
+	}
+
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -54,11 +64,11 @@ public class Person {
 		this.document = document;
 	}
 
-	public Vaccine getVaccine() {
+	public VaccineVO getVaccine() {
 		return vaccine;
 	}
 
-	public void setVaccine(Vaccine vaccine) {
+	public void setVaccine(VaccineVO vaccine) {
 		this.vaccine = vaccine;
 	}
 	

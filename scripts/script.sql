@@ -1,10 +1,19 @@
+CREATE TABLE genres(
+	id int not null auto_increment,
+	name varchar(30) not null,
+	PRIMARY KEY(id)
+);
+
+INSERT INTO genres(name) VALUES('Masculino'), ('Feminino');
+
 CREATE TABLE persons(
 	id int not null auto_increment,
     name varchar(100) not null,
     birth date not null,
-    genre tinyint not null,
+    genre_id int not null,
     document int not null,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    FOREIGN KEY(genre_id) REFERENCES genres(id)
 );
 
 CREATE TABLE general_publics(
@@ -25,15 +34,17 @@ CREATE TABLE researchers(
 
 CREATE TABLE stages(
 	id int not null auto_increment,
-    name varchar(50) not null
+    name varchar(50) not null,
+	PRIMARY KEY(id)
 );
 
-INSERT INTO stages VALUES('Inicial'), ('Testes'), ('Aplicação em massa');
+INSERT INTO stages(name) VALUES('Inicial'), ('Testes'), ('Aplicação em massa');
 
 CREATE TABLE vaccines(
 	id int not null auto_increment,
     country varchar(100) not null,
     stage_id int not null,
+    search_start_date date not null,
     researcher_id int not null,
     PRIMARY KEY(id),
     FOREIGN KEY(stage_id) REFERENCES stages(id),

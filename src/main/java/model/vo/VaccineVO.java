@@ -1,16 +1,18 @@
 package model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
-public class Vaccine {
+public class VaccineVO {
+	private int id;
 	private String country;
 	private String stage;
 	private Date startDate;
-	private Researcher researcher;
+	private ResearcherVO researcher;
 	private int evaluation;
 	
-	public Vaccine(String country, String stage, Date startDate, Researcher researcher, int evaluation) {
+	public VaccineVO(int id, String country, String stage, Date startDate, ResearcherVO researcher, int evaluation) {
 		super();
+		this.id 		= id;
 		this.country 	= country;
 		this.stage 		= stage;
 		this.startDate 	= startDate;
@@ -18,8 +20,16 @@ public class Vaccine {
 		this.evaluation = evaluation;
 	}
 	
-	public Vaccine() {
+	public VaccineVO() {
 		super();
+	}
+
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getCountry() {
@@ -46,11 +56,11 @@ public class Vaccine {
 		this.startDate = startDate;
 	}
 	
-	public Researcher getResearcher() {
+	public ResearcherVO getResearcher() {
 		return researcher;
 	}
 	
-	public void setResearcher(Researcher researcher) {
+	public void setResearcher(ResearcherVO researcher) {
 		this.researcher = researcher;
 	}
 
