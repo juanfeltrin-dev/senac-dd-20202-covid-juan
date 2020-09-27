@@ -1,9 +1,11 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,7 +148,9 @@ public class GeneralPublicDAO {
 		
 		generalPublic.setId(rs.getInt("id"));
 		generalPublic.setName(rs.getString("name"));
-		generalPublic.setBirth(rs.getDate("birth"));
+		Date birthSQL = rs.getDate("birth");
+		LocalDate birth = birthSQL.toLocalDate();
+		generalPublic.setBirth(birth);
 		generalPublic.setGenre(rs.getString("genre"));
 		generalPublic.setDocument(rs.getString("document"));
 		generalPublic.setVolunteers(rs.getBoolean("volunteers"));

@@ -12,7 +12,7 @@ public class Database {
 	private static final String DATABASE 		= "desktopcovid";
 	private static final String URL 			= "jdbc:mysql://localhost:3306/";
 	private static final String CONEXAO 		= URL + DATABASE;
-	private static final String USER 			= "localhost";
+	private static final String USER 			= "root";
 	private static final String PASSWORD 		= "";
 	
 	public static final int CODE_RETURN_SUCCESS = 1;

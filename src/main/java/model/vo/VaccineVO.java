@@ -1,16 +1,17 @@
 package model.vo;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class VaccineVO {
 	private int id;
 	private String country;
 	private String stage;
-	private Date startDate;
+	private LocalDate startDate;
 	private ResearcherVO researcher;
 	private int evaluation;
 	
-	public VaccineVO(int id, String country, String stage, Date startDate, ResearcherVO researcher, int evaluation) {
+	public VaccineVO(int id, String country, String stage, LocalDate startDate, ResearcherVO researcher, int evaluation) {
 		super();
 		this.id 		= id;
 		this.country 	= country;
@@ -48,11 +49,11 @@ public class VaccineVO {
 		this.stage = stage;
 	}
 	
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 	
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 	

@@ -1,16 +1,16 @@
 package model.vo;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class PersonVO {
 	private int id;
 	private String name;
-	private Date birth;
+	private LocalDate birth;
 	private String genre;
 	private String document;
 	private VaccineVO vaccine;
 	
-	public PersonVO(int id, String name, Date birth, String genre, String document, VaccineVO vaccine) {
+	public PersonVO(int id, String name, LocalDate birth, String genre, String document, VaccineVO vaccine) {
 		super();
 		this.id 		= id;
 		this.name 		= name;
@@ -40,11 +40,11 @@ public class PersonVO {
 		this.name = name;
 	}
 	
-	public Date getBirth() {
+	public LocalDate getBirth() {
 		return birth;
 	}
 	
-	public void setBirth(Date birth) {
+	public void setBirth(LocalDate birth) {
 		this.birth = birth;
 	}
 	

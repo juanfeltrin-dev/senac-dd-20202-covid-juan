@@ -1,9 +1,11 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +14,10 @@ import model.vo.PersonVO;
 import model.vo.ResearcherVO;
 
 public class ResearcherDAO {
-	private static final String _QUERY 	= "SELECT per.id as id, per.name as name, per.birth as birth, res.institution as institution, per.document as document "
+	private static final String _QUERY 	= "SELECT per.id as id, per.name as name, gen.name as genre,per.birth as birth, res.institution as institution, per.document as document "
 			+ "FROM researchers as res "
-			+ "INNER JOIN persons as per on res.person_id = per.id";
+			+ "INNER JOIN persons as per on res.person_id = per.id "
+			+ "INNER JOIN genres as gen on per.genre_id = gen.id";
 
 	public ResearcherVO store(ResearcherVO researcher) {
 		Connection conn 		= Database.getConnection();		
@@ -149,7 +152,9 @@ public class ResearcherDAO {
 		
 		researcher.setId(rs.getInt("id"));
 		researcher.setName(rs.getString("name"));
-		researcher.setBirth(rs.getDate("birth"));
+		Date birthSQL = rs.getDate("birth");
+		LocalDate birth = birthSQL.toLocalDate();
+		researcher.setBirth(birth);
 		researcher.setGenre(rs.getString("genre"));
 		researcher.setDocument(rs.getString("document"));
 		researcher.setInstitution(rs.getString("institution"));

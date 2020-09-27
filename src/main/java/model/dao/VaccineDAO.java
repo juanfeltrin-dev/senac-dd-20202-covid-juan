@@ -1,9 +1,11 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,8 @@ public class VaccineDAO {
 		try {
 			query.setString(1, vaccine.getCountry());
 			query.setString(2, vaccine.getStage());
-			query.setDate(3, vaccine.getStartDate());
+			Date startDate = java.sql.Date.valueOf(vaccine.getStartDate());
+			query.setDate(3, startDate);
 			query.setString(4, vaccine.getResearcher().getName());
 			
 			int codeReturn = query.executeUpdate();
@@ -62,7 +65,8 @@ public class VaccineDAO {
 		try {
 			query.setString(1, vaccine.getCountry());
 			query.setString(2, vaccine.getStage());
-			query.setDate(3, vaccine.getStartDate());
+			Date startDate = java.sql.Date.valueOf(vaccine.getStartDate());
+			query.setDate(3, startDate);
 			query.setString(4, vaccine.getResearcher().getName());
 			query.setInt(5, vaccine.getId());
 			
@@ -142,6 +146,27 @@ public class VaccineDAO {
 		return vaccines;
 	}
 	
+	public ArrayList<String> getStages() {
+		Connection conn 			= Database.getConnection();
+		String sql 					= "SELECT name FROM stages";
+		PreparedStatement query 	= Database.getPreparedStatement(conn, sql);
+		ArrayList<String> stages 	= new ArrayList<String>();
+		
+		try {
+			ResultSet rs = query.executeQuery();
+			while(rs.next()) {
+				stages.add(rs.getString("name"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar todos os estágios .\nCausa: " + e.getMessage());
+		} finally {
+			Database.closeStatement(query);
+			Database.closeConnection(conn);
+		}
+
+		return stages;
+	}
+	
 	private VaccineVO _buildVaccine(ResultSet rs) throws SQLException {
 		VaccineVO vaccine = new VaccineVO();
 		
@@ -149,7 +174,9 @@ public class VaccineDAO {
 		vaccine.setCountry(rs.getString("country"));
 		vaccine.setStage(rs.getString("stage"));
 		vaccine.getResearcher().setName(rs.getString("researcher"));
-		vaccine.setStartDate(rs.getDate("start_date"));
+		Date startDateSQL = rs.getDate("start_date");
+		LocalDate startDate = startDateSQL.toLocalDate();
+		vaccine.setStartDate(startDate);
 		
 		return vaccine;
 	}

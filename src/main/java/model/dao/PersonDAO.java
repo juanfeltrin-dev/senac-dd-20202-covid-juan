@@ -1,9 +1,11 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,8 @@ public class PersonDAO {
 		
 		try {
 			query.setString(1, person.getName());
-			query.setDate(2, person.getBirth());
+			Date birth = java.sql.Date.valueOf(person.getBirth());
+			query.setDate(2, birth);
 			query.setInt(3, person.getGenre() == this._STRING_GENRE_MALE ? this._CODE_GENRE_MALE : this._CODE_GENRE_FEMALE);
 			query.setString(4, person.getDocument());
 
@@ -59,7 +62,8 @@ public class PersonDAO {
 		
 		try {
 			query.setString(1, person.getName());
-			query.setDate(2, person.getBirth());
+			Date birth = java.sql.Date.valueOf(person.getBirth());
+			query.setDate(2, birth);
 			query.setInt(3, person.getGenre() == this._STRING_GENRE_MALE ? this._CODE_GENRE_MALE : this._CODE_GENRE_FEMALE);
 			query.setString(4, person.getDocument());
 			query.setInt(5, person.getId());
@@ -137,13 +141,36 @@ public class PersonDAO {
 		
 		return persons;
 	}
+	
+	public ArrayList<String> getGenre() {
+		Connection conn 			= Database.getConnection();
+		String sql 					= "SELECT name FROM genres";
+		PreparedStatement query 	= Database.getPreparedStatement(conn, sql);
+		ArrayList<String> genres 	= new ArrayList<String>();
+		
+		try {
+			ResultSet rs = query.executeQuery();
+			while(rs.next()) {
+				genres.add(rs.getString("name"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar todos os generos .\nCausa: " + e.getMessage());
+		} finally {
+			Database.closeStatement(query);
+			Database.closeConnection(conn);
+		}
+
+		return genres;
+	}
 
 	private PersonVO _buildPerson(ResultSet rs) throws SQLException {
 		PersonVO person = new PersonVO();
 		
 		person.setId(rs.getInt("id"));
 		person.setName(rs.getString("name"));
-		person.setBirth(rs.getDate("birth"));
+		Date birthSQL = rs.getDate("birth");
+		LocalDate birth = birthSQL.toLocalDate();
+		person.setBirth(birth);
 		person.setGenre(rs.getString("genre"));
 		person.setDocument(rs.getString("document"));
 				
