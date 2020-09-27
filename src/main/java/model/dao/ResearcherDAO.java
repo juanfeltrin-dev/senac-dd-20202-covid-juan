@@ -147,6 +147,29 @@ public class ResearcherDAO {
 		return researchers;
 	}
 	
+	public ArrayList<String> allByName() {
+		Connection conn 					= Database.getConnection();
+		String sql							= "SELECT per.name FROM researchers as res "
+											+ "INNER JOIN persons as per on res.person_id = per.id";
+		PreparedStatement query 			= Database.getPreparedStatement(conn, sql);
+		ArrayList<String> researchers 		= new ArrayList<String>();
+		
+		try {
+			ResultSet rs = query.executeQuery();
+			
+			while(rs.next()) {
+				researchers.add(rs.getString("name"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar todos os pesquisadores pelo nome.\nCausa: " + e.getMessage());
+		}finally {
+			Database.closeStatement(query);
+			Database.closeConnection(conn);
+		}
+		
+		return researchers;
+	}
+	
 	private ResearcherVO _buildResearcher(ResultSet rs) throws SQLException {
 		ResearcherVO researcher = new ResearcherVO();
 		

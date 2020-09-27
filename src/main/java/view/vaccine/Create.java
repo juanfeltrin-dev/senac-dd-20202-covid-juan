@@ -3,11 +3,14 @@ package view.vaccine;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -16,6 +19,7 @@ import com.github.lgooddatepicker.components.DateTimePicker;
 
 import controller.VaccineController;
 import model.vo.ResearcherVO;
+import model.vo.VaccineVO;
 
 public class Create {
 
@@ -70,9 +74,9 @@ public class Create {
 		
 		vaccineController = new VaccineController();
 		ArrayList<String> stages = vaccineController.getStages();
-		JComboBox comboBox = new JComboBox(stages.toArray());
-		comboBox.setBounds(238, 36, 186, 20);
-		frame.getContentPane().add(comboBox);
+		JComboBox cbStage = new JComboBox(stages.toArray());
+		cbStage.setBounds(238, 36, 186, 20);
+		frame.getContentPane().add(cbStage);
 
 		DatePickerSettings dateSettings = new DatePickerSettings();
 		dateSettings.setAllowKeyboardEditing(false);
@@ -89,10 +93,10 @@ public class Create {
 		lblPesquisador.setBounds(10, 136, 78, 14);
 		frame.getContentPane().add(lblPesquisador);
 		
-		List<ResearcherVO> researchers = vaccineController.getReasearchers();
-		JComboBox comboBox_1 = new JComboBox(researchers.toArray());
-		comboBox_1.setBounds(10, 161, 315, 20);
-		frame.getContentPane().add(comboBox_1);
+		ArrayList<String> researchers = vaccineController.getReasearchers();
+		JComboBox cbResearcher = new JComboBox(researchers.toArray());
+		cbResearcher.setBounds(10, 161, 315, 20);
+		frame.getContentPane().add(cbResearcher);
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.setBounds(335, 160, 89, 23);
@@ -100,7 +104,16 @@ public class Create {
 
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(date.getDatePicker());
+				VaccineVO vaccine = new VaccineVO();
+				vaccine.setCountry(txtCountry.getText());
+				vaccine.setStage((String) cbStage.getSelectedItem());
+				LocalDate datePicker = date.getDatePicker().getDate();
+				vaccine.setStartDate(datePicker);
+				vaccine.setResearcher(new ResearcherVO());
+				vaccine.getResearcher().setName((String) cbResearcher.getSelectedItem());
+				String message = vaccineController.store(vaccine);
+
+				JOptionPane.showMessageDialog(frame.getContentPane(), message);
 			}
 		});
 	}

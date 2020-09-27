@@ -21,10 +21,5 @@ public class ResearcherVO extends PersonVO {
 	public void setInstitution(String institution) {
 		this.institution = institution;
 	}
-
-	@Override
-	public String toString() {
-		return this.getName();
-	}
 	
 }
